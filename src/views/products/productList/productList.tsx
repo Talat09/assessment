@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { Product } from "@/types";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 interface ProductListProps {
   products: Product[];
@@ -12,11 +12,11 @@ export const ProductList: React.FC<ProductListProps> = ({
   onOpenModal,
 }) => {
   const router = useRouter();
-  const searchParams = new URLSearchParams(window.location.search);
-  const productId = searchParams.get('productId');
+  const searchParams = useSearchParams();
 
   // Effect to handle modal opening if `productId` is in the URL
   useEffect(() => {
+    const productId = searchParams.get('productId');
     if (productId) {
       const selectedProduct = products.find(
         (product) => product.id === productId
@@ -25,17 +25,13 @@ export const ProductList: React.FC<ProductListProps> = ({
         onOpenModal(selectedProduct);
       }
     }
-  }, [productId, products, onOpenModal]);
+  }, [products, onOpenModal, searchParams]);
 
   // Function to open the modal and update the URL
   const handleOpenModal = (product: Product) => {
-    router.push(`/products?productId=${product.id}`, {
-      shallow: true,
-    });
+    router.push(`/products?productId=${product.id}`);
     onOpenModal(product);
   };
-
- 
 
   return (
     <div>
