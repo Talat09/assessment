@@ -29,9 +29,7 @@ export const ProductList: React.FC<ProductListProps> = ({
 
   // Function to open the modal and update the URL
   const handleOpenModal = (product: Product) => {
-    router.push(`/products?productId=${product.id}`, {
-      shallow: true,
-    });
+    router.push(`/products?productId=${product.id}`);
     onOpenModal(product);
   };
 
