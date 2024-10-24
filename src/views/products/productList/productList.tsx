@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, Suspense } from "react";
 import { Product } from "@/types";
 import { useRouter, useSearchParams } from "next/navigation";
 
@@ -16,13 +16,16 @@ export const ProductList: React.FC<ProductListProps> = ({
 
   // Effect to handle modal opening if `productId` is in the URL
   useEffect(() => {
-    const productId = searchParams.get('productId');
+    const productId = searchParams.get("productId");
     if (productId) {
       const selectedProduct = products.find(
         (product) => product.id === productId
       );
       if (selectedProduct) {
         onOpenModal(selectedProduct);
+      } else {
+        // Handle case where productId is not found in products
+        console.error(`Product with ID ${productId} not found.`);
       }
     }
   }, [products, onOpenModal, searchParams]);
@@ -46,3 +49,15 @@ export const ProductList: React.FC<ProductListProps> = ({
     </div>
   );
 };
+
+// This is the main component you should export and use
+const ProductListPage: React.FC<{
+  products: Product[];
+  onOpenModal: (product: Product) => void;
+}> = ({ products, onOpenModal }) => (
+  <Suspense fallback={<div>Loading...</div>}>
+    <ProductList products={products} onOpenModal={onOpenModal} />
+  </Suspense>
+);
+
+export default ProductListPage;
