@@ -22,10 +22,12 @@ export const Products: React.FC = () => {
     setSelectedProduct(product);
   }, []);
 
-  const handleCloseModal = useCallback(() => {
+   // Handle closing the modal and resetting the URL
+   const handleCloseModal = useCallback(() => {
     setSelectedProduct(null);
+    // Reset the URL back to /products when the modal closes
+    window.history.pushState({}, '', '/products');
   }, []);
-
   return (
     <div>
       <BackToHome />
