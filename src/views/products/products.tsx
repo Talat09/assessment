@@ -8,6 +8,7 @@ import { ProductList } from "@/views/products/productList/productList";
 import { PaginationControls } from "@/views/products/paginationControls/paginationControls";
 import { usePagination } from "@/hooks/usePagination";
 import { PRODUCTS_DATA } from "@/data/productsData";
+import { useRouter } from "next/navigation";
 
 export const Products: React.FC = () => {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
@@ -17,17 +18,20 @@ export const Products: React.FC = () => {
     paginatedItems: paginatedProducts,
     handlePageChange,
   } = usePagination({ items: PRODUCTS_DATA, itemsPerPage: 5 });
-
+  const router = useRouter();
   const handleOpenModal = useCallback((product: Product) => {
     setSelectedProduct(product);
   }, []);
 
-   // Handle closing the modal and resetting the URL
-   const handleCloseModal = useCallback(() => {
+  // Handle closing the modal and resetting the URL
+  const handleCloseModal = useCallback(() => {
     setSelectedProduct(null);
     // Reset the URL back to /products when the modal closes
-    window.history.pushState({}, '', '/products');
-  }, []);
+   // Delay the URL reset to ensure the modal is closed first
+  setTimeout(() => {
+    router.push("/products");
+  }, 0);
+  }, [router]);
   return (
     <div>
       <BackToHome />
