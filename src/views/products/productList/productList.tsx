@@ -1,4 +1,5 @@
-import React, { useEffect, Suspense } from "react";
+"use client";
+import React, { useEffect } from "react";
 import { Product } from "@/types";
 import { useRouter, useSearchParams } from "next/navigation";
 
@@ -49,15 +50,3 @@ export const ProductList: React.FC<ProductListProps> = ({
     </div>
   );
 };
-
-// This is the main component you should export and use
-const ProductListPage: React.FC<{
-  products: Product[];
-  onOpenModal: (product: Product) => void;
-}> = ({ products, onOpenModal }) => (
-  <Suspense fallback={<div>Loading...</div>}>
-    <ProductList products={products} onOpenModal={onOpenModal} />
-  </Suspense>
-);
-
-export default ProductListPage;

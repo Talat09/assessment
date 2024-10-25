@@ -27,10 +27,10 @@ export const Products: React.FC = () => {
   const handleCloseModal = useCallback(() => {
     setSelectedProduct(null);
     // Reset the URL back to /products when the modal closes
-   // Delay the URL reset to ensure the modal is closed first
-  setTimeout(() => {
-    router.push("/products");
-  }, 0);
+    // Delay the URL reset to ensure the modal is closed first
+    setTimeout(() => {
+      router.push("/products");
+    }, 0);
   }, [router]);
   return (
     <div>
