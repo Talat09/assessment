@@ -1,3 +1,4 @@
+"use client";
 import React, { useEffect } from "react";
 import { Product } from "@/types";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -16,13 +17,16 @@ export const ProductList: React.FC<ProductListProps> = ({
 
   // Effect to handle modal opening if `productId` is in the URL
   useEffect(() => {
-    const productId = searchParams.get('productId');
+    const productId = searchParams.get("productId");
     if (productId) {
       const selectedProduct = products.find(
         (product) => product.id === productId
       );
       if (selectedProduct) {
         onOpenModal(selectedProduct);
+      } else {
+        // Handle case where productId is not found in products
+        console.error(`Product with ID ${productId} not found.`);
       }
     }
   }, [products, onOpenModal, searchParams]);
